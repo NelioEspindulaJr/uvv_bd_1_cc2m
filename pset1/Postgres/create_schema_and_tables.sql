@@ -1,30 +1,9 @@
-CREATE ROLE "Nelio" WITH
-	LOGIN
-	SUPERUSER
-	CREATEDB
-	CREATEROLE
-	INHERIT
-	NOREPLICATION
-	CONNECTION LIMIT -1
-	PASSWORD 'xxxxxx';
-COMMENT ON ROLE "Nelio" IS 'Usuário "Dono" do banco de dados. Pode criar, editar e apagar quaisquer tabelas, schemas e até o próprio banco de dados.';
-
-CREATE DATABASE uvv
-    WITH 
-    OWNER = "Nelio"
-    TEMPLATE = template0
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'pt_BR.UTF-8'
-	LC_CTYPE = 'pt_BR.UTF-8'
-    CONNECTION LIMIT = -1;
-
-\connect uvv
-
 CREATE SCHEMA elmasri
-    AUTHORIZATION "Nelio";
+    AUTHORIZATION "nelio";
 
-ALTER USER "Nelio"
+ALTER USER "nelio"
 SET SEARCH_PATH TO elmasri, "\user", public;
+
 
 
 
@@ -80,11 +59,11 @@ CREATE TABLE elmasri.funcionario (
                 nome_meio CHAR(1),
                 ultimo_nome VARCHAR(15) NOT NULL,
                 data_nascimento DATE,
-                endereco VARCHAR(30),
-                sexo CHAR(1),
-                salario NUMERIC(10,2),
-                cpf_supervisor CHAR(11) NOT NULL,
-                numero_departamento INTEGER DEFAULT 0 NOT NULL,
+                endereco VARCHAR(50),
+                sexo CHAR(1) CHECK (sexo = 'F' OR sexo = 'M'),
+                salario NUMERIC(10,2) CHECK (salario > 0),
+                cpf_supervisor CHAR(11),
+                numero_departamento INTEGER DEFAULT 1 NOT NULL, -- 1 É O PADRAO POR CONTA DE SER A MATRIZ E PARA INSERIR OS DADOS DE JORGE.
                 PRIMARY KEY (cpf)
 );
 COMMENT ON TABLE elmasri.funcionario IS 'Tabela que armazena as informações dos funcionários.';
@@ -101,7 +80,7 @@ COMMENT ON COLUMN elmasri.funcionario.numero_departamento IS 'Número do departa
 CREATE TABLE elmasri.trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INTEGER NOT NULL,
-                horas NUMERIC(3,1) NOT NULL,
+                horas NUMERIC(3,1), -- PODE SER NULO POIS JORGE RECEBE 'NULL' NESTA COLUNA.
                 PRIMARY KEY (cpf_funcionario, numero_projeto)
 );
 COMMENT ON TABLE elmasri.trabalha_em IS 'Tabela para armazenar quais funcionários trabalham em quais projetos.';
@@ -113,7 +92,7 @@ COMMENT ON COLUMN elmasri.trabalha_em.horas IS 'Horas trabalhadas pelo funcioná
 CREATE TABLE elmasri.dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
-                sexo CHAR(1),
+                sexo CHAR(1) CHECK (sexo = 'F' OR sexo = 'M'),
                 data_nascimento DATE,
                 parentesco VARCHAR(15),
                 PRIMARY KEY (cpf_funcionario, nome_dependente)
@@ -129,6 +108,13 @@ COMMENT ON COLUMN elmasri.dependente.parentesco IS 'Descrição do parentesco do
 ALTER TABLE elmasri.projeto ADD CONSTRAINT departamento_projeto_fk
 FOREIGN KEY (numero_departamento)
 REFERENCES elmasri.departamento (numero_departamento)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE elmasri.departamento ADD CONSTRAINT departamento_funcionario_fk
+FOREIGN KEY (cpf_gerente)
+REFERENCES elmasri.funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
