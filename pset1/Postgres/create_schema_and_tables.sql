@@ -1,12 +1,15 @@
+-- CRIAÇÃO DO ESQUEMA ELMASRI
 CREATE SCHEMA elmasri
     AUTHORIZATION "nelio";
 
+-- CRIAÇÃO DO USUÁRIO ADMINISTRADOR DO BANCO DE DADOS
 ALTER USER "nelio"
-SET SEARCH_PATH TO elmasri, "\user", public;
+SET SEARCH_PATH TO elmasri, "\user", public; -- PARA QUE AS TABELAS SEJAM CRIADOS DENTRO DO ESQUEMA ELMASRI, PRECISAMOS ALTERAR O SEARCH_PATH. 
 
-
-
-
+/*
+A PARTIR DESSE PONTO, SÃO CRIADAS TODAS AS TABELAS E RELAÇÕES, SEGUINDO O PROJETO DE MODELO CONCEITUAL;
+CASO EXISTA ALGUM DETALHE IMPORTANTE A SER DESTACADO, HAVERÁ UM COMENTÁRIO INDICANDO O QUE FOI FEITO E PORQUE.
+*/
 CREATE TABLE elmasri.departamento (
                 numero_departamento INTEGER NOT NULL,
                 nome_departamento VARCHAR(15) NOT NULL,
@@ -21,7 +24,7 @@ COMMENT ON COLUMN elmasri.departamento.cpf_gerente IS 'CPF do gerente do departa
 COMMENT ON COLUMN elmasri.departamento.data_inicio_gerente IS 'Data do início do gerente no departamento.';
 
 
-CREATE UNIQUE INDEX departamento_idx
+CREATE UNIQUE INDEX departamento_idx -- CRIAÇÃO DA ALTERNATIVE KEY 'nome_departamento' DA TABELA DEPARTAMENTO
  ON elmasri.departamento
  ( nome_departamento );
 
@@ -49,7 +52,7 @@ COMMENT ON COLUMN elmasri.projeto.local_projeto IS 'Localização do projeto.';
 COMMENT ON COLUMN elmasri.projeto.numero_departamento IS 'Número do departamento. É uma FK para a tabela departamento.';
 
 
-CREATE UNIQUE INDEX projeto_idx
+CREATE UNIQUE INDEX projeto_idx -- CRIAÇÃO DA ALTERNATIVE KEY 'nome_projeto DA TABELA PROJETO
  ON elmasri.projeto
  ( nome_projeto );
 
@@ -60,10 +63,10 @@ CREATE TABLE elmasri.funcionario (
                 ultimo_nome VARCHAR(15) NOT NULL,
                 data_nascimento DATE,
                 endereco VARCHAR(50),
-                sexo CHAR(1) CHECK (sexo = 'F' OR sexo = 'M'),
-                salario NUMERIC(10,2) CHECK (salario > 0),
-                cpf_supervisor CHAR(11),
-                numero_departamento INTEGER DEFAULT 1 NOT NULL, -- 1 É O PADRAO POR CONTA DE SER A MATRIZ E PARA INSERIR OS DADOS DE JORGE.
+                sexo CHAR(1) CHECK (sexo = 'F' OR sexo = 'M'), -- A CONSTRAINT CHECK AQUI, AGE IMPEDINDO QUE QUALQUER OUTRO VALOR, EXCETO 'M' ou 'F' SEJA INSERIDO.
+                salario NUMERIC(10,2) CHECK (salario > 0), -- A CONSTRAINT CHECK AQUI, IMPEDE QUE O SALARIO SEJA NEGATIVO.
+                cpf_supervisor CHAR(11), -- PODE SER NULO POIS O FUNCIONÁRIO 'JORGE' RECEBE VALOR 'NULL' NESSE CAMPO
+                numero_departamento INTEGER DEFAULT 1 NOT NULL, -- 1 É O Nº DEPARTAMENTO PADRAO POR CONTA DE SER A MATRIZ, E PARA QUE SEJA POSSÍVEL INSERIR OS DADOS INICIAIS DE DEPARTAMENTO E FUNCIONÁRIO.
                 PRIMARY KEY (cpf)
 );
 COMMENT ON TABLE elmasri.funcionario IS 'Tabela que armazena as informações dos funcionários.';
@@ -80,7 +83,7 @@ COMMENT ON COLUMN elmasri.funcionario.numero_departamento IS 'Número do departa
 CREATE TABLE elmasri.trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INTEGER NOT NULL,
-                horas NUMERIC(3,1), -- PODE SER NULO POIS JORGE RECEBE 'NULL' NESTA COLUNA.
+                horas NUMERIC(3,1) CHECK (horas > 0), -- DEVE SER MAIOR QUE 0 (constraint check) E PODE SER NULO POIS O FUNCIONARIO 'JORGE' RECEBE 'NULL' NESTE CAMPO.
                 PRIMARY KEY (cpf_funcionario, numero_projeto)
 );
 COMMENT ON TABLE elmasri.trabalha_em IS 'Tabela para armazenar quais funcionários trabalham em quais projetos.';
@@ -92,7 +95,7 @@ COMMENT ON COLUMN elmasri.trabalha_em.horas IS 'Horas trabalhadas pelo funcioná
 CREATE TABLE elmasri.dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
-                sexo CHAR(1) CHECK (sexo = 'F' OR sexo = 'M'),
+                sexo CHAR(1) CHECK (sexo = 'F' OR sexo = 'M'), -- A CONSTRAINT CHECK AQUI, AGE IMPEDINDO QUE QUALQUER OUTRO VALOR, EXCETO 'M' ou 'F' SEJA INSERIDO.
                 data_nascimento DATE,
                 parentesco VARCHAR(15),
                 PRIMARY KEY (cpf_funcionario, nome_dependente)
@@ -104,6 +107,9 @@ COMMENT ON COLUMN elmasri.dependente.sexo IS 'Sexo do dependente.';
 COMMENT ON COLUMN elmasri.dependente.data_nascimento IS 'Data de nascimento do dependente.';
 COMMENT ON COLUMN elmasri.dependente.parentesco IS 'Descrição do parentesco do dependente com o funcionário.';
 
+/*
+CRIAÇÃO DOS RELACIONAMENTOS DE FOREIGN KEYS ENTRE AS TABELAS;
+*/
 
 ALTER TABLE elmasri.projeto ADD CONSTRAINT departamento_projeto_fk
 FOREIGN KEY (numero_departamento)

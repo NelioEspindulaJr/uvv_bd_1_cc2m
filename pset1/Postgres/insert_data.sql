@@ -10,12 +10,12 @@ ALTER TABLE elmasri.departamento ALTER COLUMN cpf_gerente DROP NOT NULL;
 
 INSERT INTO elmasri.funcionario (primeiro_nome, nome_meio, ultimo_nome, cpf, data_nascimento, endereco, sexo, salario, cpf_supervisor, numero_departamento)
 VALUES
-    ('Jorge', 'E', 'Brito', '88866555576','10-11-1937', 'Rua do Horto, 35, São Paulo, SP', 'M', 55000, NULL, 1);
+    ('Jorge', 'E', 'Brito', '88866555576','10-11-1937', 'Rua do Horto, 35, Sao Paulo, SP', 'M', 55000, NULL, 1);
 
 -- DEPOIS DE DEFINIR JORGE, INSERI OS OUTROS DOIS GERENTES UTILIZANDO O VALOR PADRÃO '1' DE numero_departamento 
 INSERT INTO elmasri.funcionario (primeiro_nome, nome_meio, ultimo_nome, cpf, data_nascimento, endereco, sexo, salario, cpf_supervisor, numero_departamento)
 VALUES
-    ('Fernando', 'T', 'Wong', '33344555587','08-12-1955', 'Rua da Lapa, 34, São Paulo, SP', 'M', 40000, '88866555576', 1),
+    ('Fernando', 'T', 'Wong', '33344555587','08-12-1955', 'Rua da Lapa, 34, Sao Paulo, SP', 'M', 40000, '88866555576', 1),
     ('Jennifer', 'S', 'Souza', '98765432168','20-06-1941', 'Av. Arthur de Lima, 54, Santo Andre, SP', 'F', 43000, '88866555576', 1);
 
 -- CRIAÇÃO DOS DEPARTAMENTOS
