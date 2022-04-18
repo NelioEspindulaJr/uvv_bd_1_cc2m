@@ -59,13 +59,13 @@ Com sua máquina configurada e sabendo a diferença entre os arquivos do projeto
 ### **1.4.2. Abrir o terminal psql na sua máquina**
 > Caso você tenha seguido as instruções descritas em [1.3. Como este projeto funciona?](#13-como-este-projeto-funciona) você tem instalado em sua máquina o terminal psql.
 
-![open-psql](https://s7.gifyu.com/images/STEP-1.md.gif)
+![open-psql](https://media1.tenor.com/images/b7edf34ac418f7e57420489f87fffdb2/tenor.gif?itemid=25423407)
 
 ### **1.4.3 Acesse o servidor localhost da sua máquina através do psql**
 
 > Utilizando o usuário padrão postgres e a senha de administrador cadastrada por você na instalação do PostgreSQL, acesse o servidor localhost da sua máquina.
 
-![login-database-locahost](https://s7.gifyu.com/images/step2.md.gif)
+![login-database-locahost](https://media.tenor.com/images/c6aa9f2efb19018c42e365da4d7b0f43/tenor.gif)
 
 ### **1.4.4 Localizando o diretório dos arquivos**
 
@@ -73,7 +73,7 @@ Com sua máquina configurada e sabendo a diferença entre os arquivos do projeto
 
 1º) Para localizar o diretório dos arquivos, basta selecionar o endereço de destino da pasta, segue exemplo:
 
-![locate-dir](https://s7.gifyu.com/images/step3.md.gif)
+![locate-dir](https://media1.tenor.com/images/7015856c5881e569b39f31e1adfa7f11/tenor.gif?itemid=25423429)
 
 2º) Com o destino encontrado ```C:\Users\trade\Desktop\uvv_bd_1_cc2m-main\pset1\Postgres``` troque as barras invertidas "`\`" pela barra normal "`/`".
 
