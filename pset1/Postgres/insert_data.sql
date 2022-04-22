@@ -1,16 +1,8 @@
-/*
-ANALISANDO O PROJETO E OS DADOS QUE PRECISAM SER INSERIDOS, É POSSÍVEL PERCEBER QUE O PRIMEIRO DADO A SER INSERIDO É O DE JORGE.
-ISSO SE DEVE AO FATO QUE JORGE NÃO POSSUI UM SUPERVISOR, MAS É O SUPERVISOR DOS GERENTES, E AINDA TEM COMO O NÚMERO DO DEPARTAMENTO O DA MATRIZ.
-POR ISSO, O INSERI PRIMEIRO, A FIM DE DEFINIR POSTERIORMENTE OS DEMAIS FUNCIONÁRIOS E DEPARTAMENTOS.
-*/
-
--- POR CONTA DOS RELACIONAMENTOS, RETIREI TEMPORARIAMENTE A CONSTRAINT DE NOT NULL DA COLUNA cpf_gerente 
--- RETORNO COM A CONSTRAINT NA LINHA 32
-ALTER TABLE elmasri.departamento ALTER COLUMN cpf_gerente DROP NOT NULL;
 
 INSERT INTO elmasri.funcionario (primeiro_nome, nome_meio, ultimo_nome, cpf, data_nascimento, endereco, sexo, salario, cpf_supervisor, numero_departamento)
 VALUES
     ('Jorge', 'E', 'Brito', '88866555576','10-11-1937', 'Rua do Horto, 35, Sao Paulo, SP', 'M', 55000, NULL, 1);
+
 
 -- DEPOIS DE DEFINIR JORGE, INSERI OS OUTROS DOIS GERENTES UTILIZANDO O VALOR PADRÃO '1' DE numero_departamento 
 INSERT INTO elmasri.funcionario (primeiro_nome, nome_meio, ultimo_nome, cpf, data_nascimento, endereco, sexo, salario, cpf_supervisor, numero_departamento)
@@ -18,18 +10,10 @@ VALUES
     ('Fernando', 'T', 'Wong', '33344555587','08-12-1955', 'Rua da Lapa, 34, Sao Paulo, SP', 'M', 40000, '88866555576', 1),
     ('Jennifer', 'S', 'Souza', '98765432168','20-06-1941', 'Av. Arthur de Lima, 54, Santo Andre, SP', 'F', 43000, '88866555576', 1);
 
--- CRIAÇÃO DOS DEPARTAMENTOS
-INSERT INTO elmasri.departamento (nome_departamento, numero_departamento, cpf_gerente, data_inicio_gerente)
-VALUES 
-    ('Matriz', 1, '88866555576', '19-06-1981'),
-    ('Pesquisa', 5, '33344555587', '22-05-1988'),
-    ('Administracao', 4, '98765432168', '01-01-1995');
+UPDATE elmasri.departamento SET cpf_gerente = '88866555576' WHERE numero_departamento = 1;
+UPDATE elmasri.departamento SET cpf_gerente = '98765432168' WHERE numero_departamento = 4;
+UPDATE elmasri.departamento SET cpf_gerente = '33344555587' WHERE numero_departamento = 5;
 
--- ATUALIZAÇÃO DOS DADOS CORRETOS PARA O NUMERO DE DEPARTAMENTO DOS FUNCIONÁRIOS GERENTES.
-UPDATE elmasri.funcionario SET numero_departamento = 4 WHERE cpf = '98765432168';
-UPDATE elmasri.funcionario SET numero_departamento = 5 WHERE cpf = '33344555587';
-
-ALTER TABLE elmasri.departamento ALTER COLUMN cpf_gerente SET NOT NULL;
 
 -- DADOS DOS DEMAIS FUNCIONARIOS INSERIDOS.
 INSERT INTO elmasri.funcionario (primeiro_nome, nome_meio, ultimo_nome, cpf, data_nascimento, endereco, sexo, salario, cpf_supervisor, numero_departamento) 
