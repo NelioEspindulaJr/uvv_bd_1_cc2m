@@ -38,7 +38,7 @@
      <remarks></remarks>
     </column>
     <column id="COL10" populated="true" UUID="508f61cc-01b1-41d9-894c-48da1856bb7d" autoIncrement="false" autoIncrementSequenceName="funcionario_cpf_supervisor_seq" defaultValue="" name="cpf_supervisor" nullable="0" physicalName="cpf_supervisor" precision="11" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
-     <remarks>CPF do supervisor. Será uma FK para a própria tabela (um auto-relacionamento).</remarks>
+     <remarks>o-relacionamento).</remarks>
     </column>
     <column id="COL11" populated="true" UUID="fdf9c25c-96d2-4916-9d34-3f3d02aae225" autoIncrement="false" autoIncrementSequenceName="funcionario_numero_departamento_seq" defaultValue="0" name="numero_departamento" nullable="0" physicalName="numero_departamento" precision="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks>Número do departamento do funcionário. Valor padrão é &quot;0&quot;.</remarks>
@@ -58,7 +58,7 @@
    <remarks>Tabela que armazena as informações dos dependentes dos funcionários.</remarks>
    <folder id="FOLTAB141" populated="true" name="Columns" physicalName="Columns" type="1">
     <column id="COL15" populated="true" UUID="4545dbcf-3dab-434b-afb9-01101466dd28" autoIncrement="false" autoIncrementSequenceName="dependente_cpf_funcionario_seq" defaultValue="" name="cpf_funcionario" nullable="0" physicalName="cpf_funcionario" precision="11" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
-     <remarks>CPF do funcionário. Faz parte da PK desta tabela e é uma FK para a tabela funcionário.</remarks>
+     <remarks>para a tabela funcionário.</remarks>
     </column>
     <column id="COL16" populated="true" UUID="d91ce480-082e-41c9-a1d0-a10203a110d8" autoIncrement="false" autoIncrementSequenceName="dependente_nome_dependente_seq" defaultValue="" name="nome_dependente" nullable="0" physicalName="nome_dependente" precision="15" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks>Nome do dependente. Faz parte da PK desta tabela.</remarks>
@@ -117,7 +117,7 @@
    <remarks>Tabela que armazena as possíveis localizações dos departamentos.</remarks>
    <folder id="FOLTAB321" populated="true" name="Columns" physicalName="Columns" type="1">
     <column id="COL33" populated="true" UUID="ddc6deb5-4f91-4afd-bc18-a296f58e81e1" autoIncrement="false" autoIncrementSequenceName="localizacoes_departamento_loc_numero_departamento_seq" defaultValue="" name="loc_numero_departamento" nullable="0" physicalName="loc_numero_departamento" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks>Número do departamento. Faz parta da PK desta tabela e também é uma FK para a tabela departamento.</remarks>
+     <remarks>m é uma FK para a tabela departamento.</remarks>
     </column>
     <column id="COL34" populated="true" UUID="264ba5de-9d32-44b1-a5b1-077ec6f9bb8f" autoIncrement="false" autoIncrementSequenceName="localizacoes_departamento_local_seq" defaultValue="" name="local" nullable="0" physicalName="local" precision="15" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks>Localização do departamento. Faz parte da PK desta tabela.</remarks>
@@ -167,10 +167,10 @@
    <remarks>Tabela para armazenar quais funcionários trabalham em quais projetos.</remarks>
    <folder id="FOLTAB471" populated="true" name="Columns" physicalName="Columns" type="1">
     <column id="COL48" populated="true" UUID="402d781f-346b-4aea-8054-db4b3a511b16" autoIncrement="false" autoIncrementSequenceName="trabalha_em_trab_cpf_funcionario_seq" defaultValue="" name="trab_cpf_funcionario" nullable="0" physicalName="trab_cpf_funcionario" precision="11" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
-     <remarks>CPF do funcionário. Faz parte da PK desta tabela e é uma FK para a tabela funcionário.</remarks>
+     <remarks>para a tabela funcionário.</remarks>
     </column>
     <column id="COL49" populated="true" UUID="35442c77-cc76-47df-bb70-e9cb462496c1" autoIncrement="false" autoIncrementSequenceName="trabalha_em_numero_projeto_seq" defaultValue="" name="numero_projeto" nullable="0" physicalName="numero_projeto" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks>Número do projeto. Faz parte da PK desta tabela e é uma FK para a tabela projeto.</remarks>
+     <remarks>ara a tabela projeto.</remarks>
     </column>
     <column id="COL50" populated="true" UUID="8a047170-99e7-4c33-ba51-7400a34b519c" autoIncrement="false" autoIncrementSequenceName="trabalha_em_horas_seq" defaultValue="" name="horas" nullable="0" physicalName="horas" precision="3" referenceCount="1" scale="1" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
      <remarks>Horas trabalhadas pelo funcionário neste projeto.</remarks>
@@ -214,7 +214,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="elmasri"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="false" target-catalog="elmasri"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
