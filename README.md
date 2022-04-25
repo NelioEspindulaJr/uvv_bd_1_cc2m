@@ -4,4 +4,5 @@ Repositório da matéria de Design e Desenvolvimentode Banco de Dados na Univers
 # Arquivos:
 
 1. [Problem Set 1](/pset1)
-2. 
+2. [Problem Set 2](/pset2)
+3. [Problem Set 3](/pset3)
