@@ -8,8 +8,8 @@ d.numero_departamento AS "Nº Departamento",
 d.nome_departamento AS "Departamento",
 CONCAT('R$ ', ROUND((SUM(f.salario) / COUNT(*)),2)) AS "Média Salarial"
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON f.numero_departamento = d.numero_departamento
+FROM uvv.funcionario AS f
+INNER JOIN uvv.departamento AS d ON f.numero_departamento = d.numero_departamento
 GROUP BY d.nome_departamento, d.numero_departamento;
 
 /*
@@ -21,7 +21,7 @@ SELECT
 f.sexo AS "Sexo",
 CONCAT('R$ ', ROUND((SUM(f.salario) / COUNT(*)),2)) AS "Média Salarial"
 
-FROM elmasri.funcionario AS f
+FROM uvv.funcionario AS f
 
 GROUP BY f.sexo;
 
@@ -36,12 +36,12 @@ SELECT
 d.nome_departamento AS "Nome Departamento",
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
 f.data_nascimento AS "Data de Nascimento", 
-EXTRACT(year FROM age(f.data_nascimento)) AS "Idade",
+TIMESTAMPDIFF(YEAR, f.data_nascimento, NOW()) AS "Idade",
 CONCAT('R$ ', ROUND((f.salario),2)) as "Salário"
 
 
-FROM elmasri.departamento AS d
-INNER JOIN elmasri.funcionario AS f ON f.numero_departamento = d.numero_departamento
+FROM uvv.departamento AS d
+INNER JOIN uvv.funcionario AS f ON f.numero_departamento = d.numero_departamento
 ORDER BY nome_departamento;
 
 /*
@@ -54,7 +54,7 @@ reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou sup
 
 SELECT
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
-EXTRACT(year FROM age(f.data_nascimento)) AS "Idade",
+TIMESTAMPDIFF(YEAR, f.data_nascimento, NOW()) AS "Idade",
 f.salario AS "Salário Atual",
 
     CASE
@@ -63,7 +63,7 @@ f.salario AS "Salário Atual",
         ROUND((f.salario * 0.85),2)
     END AS "Salário Reajuste"
 
-FROM elmasri.funcionario AS f;
+FROM uvv.funcionario AS f;
 
 /*
 QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, 
@@ -76,15 +76,15 @@ como “Masculino” ou “Feminino”).
 SELECT
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome do Funcionário",
 dp.nome_dependente AS "Nome do Dependente",
-EXTRACT(year FROM age(dp.data_nascimento)) AS "Idade",
+TIMESTAMPDIFF(YEAR, dp.data_nascimento, NOW()) AS "Idade",
 
 CASE
     WHEN dp.sexo = 'M' THEN 'Masculino'
     WHEN dp.sexo = 'F' THEN 'Feminino'
     END AS "Sexo do dependente"
 
-FROM elmasri.dependente AS dp
-INNER JOIN elmasri.funcionario AS f ON f.cpf = dp.cpf_funcionario;
+FROM uvv.dependente AS dp
+INNER JOIN uvv.funcionario AS f ON f.cpf = dp.cpf_funcionario;
 
 /*
 QUESTÃO 07: prepare um relatório que mostre, para cada funcionário que NÃO
@@ -96,13 +96,13 @@ CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Compl
 d.nome_departamento AS "Departamento",
 CONCAT('R$ ',ROUND((f.salario),2)) AS "Salário"
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
+FROM uvv.funcionario AS f
+INNER JOIN uvv.departamento AS d ON d.numero_departamento = f.numero_departamento
 WHERE f.cpf NOT IN (
     
     SELECT 
     dp.cpf_funcionario
-    FROM elmasri.dependente AS dp
+    FROM uvv.dependente AS dp
 
 
 );
@@ -120,10 +120,10 @@ p.nome_projeto AS "Projeto",
 tbm.horas AS "Horas trabalhadas"
 
 
-FROM elmasri.departamento AS d 
-INNER JOIN elmasri.projeto AS p ON p.numero_departamento = d.numero_departamento
-INNER JOIN elmasri.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
-INNER JOIN elmasri.funcionario AS f ON f.cpf = tbm.cpf_funcionario;
+FROM uvv.departamento AS d 
+INNER JOIN uvv.projeto AS p ON p.numero_departamento = d.numero_departamento
+INNER JOIN uvv.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
+INNER JOIN uvv.funcionario AS f ON f.cpf = tbm.cpf_funcionario;
 
 /*
 QUESTÃO 09: prepare um relatório que mostre a soma total das horas de cada
@@ -137,9 +137,9 @@ p.nome_projeto AS "Nome do Projeto",
 SUM(tbm.horas) AS "Horas Trabalhadas"
 
 
-FROM elmasri.trabalha_em AS tbm
-INNER JOIN elmasri.projeto AS p ON p.numero_projeto = tbm.numero_projeto
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = p.numero_departamento
+FROM uvv.trabalha_em AS tbm
+INNER JOIN uvv.projeto AS p ON p.numero_projeto = tbm.numero_projeto
+INNER JOIN uvv.departamento AS d ON d.numero_departamento = p.numero_departamento
 GROUP BY p.nome_projeto, d.nome_departamento
 ORDER BY d.nome_departamento;
 
@@ -151,8 +151,8 @@ SELECT
 CONCAT('R$ ', ROUND((AVG(f.salario)),2)) AS "Média Salarial",
 d.nome_departamento AS "Departamento"
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
+FROM uvv.funcionario AS f
+INNER JOIN uvv.departamento AS d ON d.numero_departamento = f.numero_departamento
 GROUP BY d.numero_departamento;
 /*
 QUESTÃO 11: considerando que o valor pago por hora trabalhada em um projeto
@@ -164,9 +164,9 @@ CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Compl
 p.nome_projeto AS "Nome do Projeto",
 CONCAT('R$ ', (tbm.horas * 50)) AS "A receber por horas"
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.trabalha_em AS tbm ON tbm.cpf_funcionario = f.cpf
-INNER JOIN elmasri.projeto AS p ON p.numero_projeto = tbm.numero_projeto
+FROM uvv.funcionario AS f
+INNER JOIN uvv.trabalha_em AS tbm ON tbm.cpf_funcionario = f.cpf
+INNER JOIN uvv.projeto AS p ON p.numero_projeto = tbm.numero_projeto
 GROUP BY f.cpf, p.nome_projeto, tbm.horas;
 
 /*
@@ -181,10 +181,10 @@ d.nome_departamento AS "Nome Departamento",
 p.nome_projeto AS "Nome do Projeto",
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo"
 
-FROM elmasri.departamento AS d
-INNER JOIN elmasri.projeto AS p ON p.numero_departamento = d.numero_departamento
-INNER JOIN elmasri.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
-INNER JOIN elmasri.funcionario AS f ON f.cpf = tbm.cpf_funcionario
+FROM uvv.departamento AS d
+INNER JOIN uvv.projeto AS p ON p.numero_departamento = d.numero_departamento
+INNER JOIN uvv.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
+INNER JOIN uvv.funcionario AS f ON f.cpf = tbm.cpf_funcionario
 
 WHERE tbm.horas IS NULL;
 /*
@@ -198,25 +198,25 @@ pela idade em anos completos, de forma decrescente.
 */
 SELECT 
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
-EXTRACT(year FROM age(f.data_nascimento)) AS "Idade",
+TIMESTAMPDIFF(YEAR, f.data_nascimento, NOW()) AS "Idade",
 CASE
     WHEN f.sexo = 'M' THEN 'Masculino'
     WHEN f.sexo = 'F' THEN 'Feminino'
     END AS "Sexo"
 
-FROM elmasri.funcionario AS f
+FROM uvv.funcionario AS f
 
 UNION
 
 SELECT
 CONCAT(dp.nome_dependente) AS "Nome Completo",
-EXTRACT(year FROM age(dp.data_nascimento)) AS "Idade",
+TIMESTAMPDIFF(YEAR, dp.data_nascimento, NOW()) AS "Idade",
 CASE
     WHEN dp.sexo = 'M' THEN 'Masculino'
     WHEN dp.sexo = 'F' THEN 'Feminino'
     END AS "Sexo"
 
-FROM elmasri.dependente AS dp
+FROM uvv.dependente AS dp
 
 ORDER BY 2 DESC;
 
@@ -227,8 +227,8 @@ SELECT
 d.nome_departamento AS "Nome Departamento", 
 COUNT(f.cpf) AS "Nº de Funcionários"
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
+FROM uvv.funcionario AS f
+INNER JOIN uvv.departamento AS d ON d.numero_departamento = f.numero_departamento
 GROUP BY d.nome_departamento;
 /*
 QUESTÃO 15: como um funcionário pode estar alocado em mais de um projeto,
@@ -243,9 +243,9 @@ d.nome_departamento AS "Nome Departamento",
 p.nome_projeto AS "Nome Projeto"
 
 
-FROM elmasri.funcionario AS f 
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
-INNER JOIN elmasri.projeto AS p ON p.numero_departamento = f.numero_departamento
+FROM uvv.funcionario AS f 
+INNER JOIN uvv.departamento AS d ON d.numero_departamento = f.numero_departamento
+INNER JOIN uvv.projeto AS p ON p.numero_departamento = f.numero_departamento
 ORDER BY f.primeiro_nome;
 
 
