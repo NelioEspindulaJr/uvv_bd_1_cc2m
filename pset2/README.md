@@ -16,7 +16,7 @@ Repositório da matéria de Design e Desenvolvimentode Banco de Dados na Univers
 
 Os exercícios estão separados em duas pastas, cada um respectivo ao seu banco de dados:
 
-1. [MySQL](/.../MySQL)
+1. [MySQL](MySQL)
 
-2. [Postgres](/.../postgres)
+2. [Postgres](postgres)
 
