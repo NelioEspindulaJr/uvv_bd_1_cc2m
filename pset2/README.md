@@ -20,3 +20,6 @@ Os exercícios estão separados em duas pastas, cada um respectivo ao seu banco 
 
 2. [Postgres](postgres)
 
+
+
+> Vale lembrar que eu e os alunos João Lucas Saraiva e Igor Resende Peli fizemos o trabalho juntos. Por isso eles devem apresentar algumas semelhanças no código.
